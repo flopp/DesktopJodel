@@ -4,7 +4,6 @@
 #include "ui_postListPage.h"
 #include <QSpacerItem>
 #include <QVBoxLayout>
-#include <QDebug>
 
 PostListPage::PostListPage(QWidget* parent) :
   QWidget(parent)
@@ -23,7 +22,6 @@ PostListPage::PostListPage(QWidget* parent) :
   _spacer = new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
   _layout->addSpacerItem(_spacer);
 
-  connect(_ui->settingsButton, SIGNAL(clicked()), this, SIGNAL(show_settings()));
   connect(_ui->refreshListButton, SIGNAL(clicked()), this, SLOT(refresh_list()));
   connect(_ui->postButton, SIGNAL(clicked()), this, SLOT(post_message()));
 }
@@ -72,17 +70,17 @@ void PostListPage::refresh_list()
     }
 
     if (_client->is_authenticated())
-      {
-        _ui->refreshListButton->setText("Refresh");
-        _ui->postText->setEnabled(true);
-        _ui->postButton->setEnabled(true);
-      }
-      else
-      {
-        _ui->refreshListButton->setText("Authenticate");
-        _ui->postText->setEnabled(false);
-        _ui->postButton->setEnabled(false);
-      }
+    {
+      _ui->refreshListButton->setText("Refresh");
+      _ui->postText->setEnabled(true);
+      _ui->postButton->setEnabled(true);
+    }
+    else
+    {
+      _ui->refreshListButton->setText("Authenticate");
+      _ui->postText->setEnabled(false);
+      _ui->postButton->setEnabled(false);
+    }
   }
   else
   {

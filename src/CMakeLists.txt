@@ -1,10 +1,10 @@
 qt5_wrap_ui(forms
   mainWindow.ui
+  newAccountDialog.ui
   postListPage.ui
   postDetailsPage.ui
   postWidget.ui
   voteWidget.ui
-  settingsDialog.ui
 )
 
 #qt5_add_resources(resources
@@ -18,11 +18,11 @@ add_executable(DesktopJodel
   imageFetcher.cpp
   imageWidget.cpp
   mainWindow.cpp
+  newAccountDialog.cpp
   postListPage.cpp
   postDetailsPage.cpp
   post.cpp
   postWidget.cpp
-  settingsDialog.cpp
   voteDirection.cpp
   voteWidget.cpp
   ${forms}

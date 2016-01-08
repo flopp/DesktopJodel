@@ -1,23 +1,19 @@
 #include "client.h"
 #include "mainWindow.h"
+#include "newAccountDialog.h"
 #include "postDetailsPage.h"
 #include "postListPage.h"
-#include "settingsDialog.h"
 #include "ui_mainWindow.h"
 #include <QMessageBox>
 #include <QSettings>
 #include <QStackedLayout>
+#include <QTimer>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget* parent) :
   QWidget(parent)
 {
   _settings = new QSettings(this);
-  _client = new Client(
-      _settings->value("device_uid", Client::randomDeviceUid()).toString(),
-      _settings->value("city", "Berlin").toString(),
-      _settings->value("country_code", "DE").toString(),
-      _settings->value("lat", 52.516667).toDouble(),
-      _settings->value("lng", 13.383333).toDouble());
 
   _ui = new Ui::MainWindow;
   _ui->setupUi(this);
@@ -25,17 +21,16 @@ MainWindow::MainWindow(QWidget* parent) :
   _layout = new QStackedLayout(this);
 
   _list_page = new PostListPage(this);
-  _list_page->set_client(_client);
   _layout->addWidget(_list_page);
   connect(_list_page, SIGNAL(show_post_details(QString)), this, SLOT(showDetailsPage(QString)));
-  connect(_list_page, SIGNAL(show_settings()), this, SLOT(showSettingsDialog()));
 
   _details_page = new PostDetailsPage(this);
-  _details_page->set_client(_client);
   _layout->addWidget(_details_page);
   connect(_details_page, SIGNAL(back_to_list()), this, SLOT(showListPage()));
 
   showListPage();
+
+  QTimer::singleShot(0, this, SLOT(initialize_or_quit()));
 }
 
 
@@ -59,23 +54,36 @@ void MainWindow::showDetailsPage(const QString& post_id)
 }
 
 
-void MainWindow::showSettingsDialog()
+void MainWindow::initialize_or_quit()
 {
-  if (!_settingsDialog)
+  Q_ASSERT(!_client);
+
+  QString device_uid = _settings->value("device_uid").toString();
+  if (device_uid.size() == 64)
   {
-    _settingsDialog = new SettingsDialog(this);
-    connect(_settingsDialog, SIGNAL(accepted()), this, SLOT(store_settings_from_dialog()));
+    _client = new Client(
+        device_uid,
+        _settings->value("city", "Berlin").toString(),
+        _settings->value("country_code", "DE").toString(),
+        _settings->value("lat", 52.516667).toDouble(),
+        _settings->value("lng", 13.383333).toDouble());
+  }
+  else
+  {
+    NewAccountDialog d;
+    if (d.exec() != QDialog::Accepted)
+    {
+      qApp->quit();
+    }
+
+    _client = new Client(
+        d.get_device_uid(),
+        d.get_city(),
+        d.get_country_code(),
+        d.get_lat(),
+        d.get_lng());
   }
 
-  _settingsDialog->load_settings(*_client);
-  _settingsDialog->show();
-}
-
-
-void MainWindow::store_settings_from_dialog()
-{
-  Q_ASSERT(_settingsDialog);
-  _settingsDialog->store_settings(*_client);
   _settings->setValue("device_uid", _client->get_device_uid());
   _settings->setValue("city", _client->get_city());
   _settings->setValue("country_code", _client->get_country_code());
@@ -83,7 +91,17 @@ void MainWindow::store_settings_from_dialog()
   _settings->setValue("lng", _client->get_lng());
   _settings->sync();
 
-  QMessageBox::information(this, "Info", "Setting changed. Closing application now.");
+  try
+  {
+    _client->authenticate();
+  }
+  catch(...)
+  {
+    // TODO: show error message
+  }
 
-  qApp->quit();
+  _list_page->set_client(_client);
+  _details_page->set_client(_client);
+
+  _list_page->refresh_list();
 }

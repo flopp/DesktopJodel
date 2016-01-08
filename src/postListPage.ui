@@ -17,13 +17,6 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="settingsButton">
-       <property name="text">
-        <string>Settings</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="refreshListButton">
        <property name="text">
         <string>Refresh</string>

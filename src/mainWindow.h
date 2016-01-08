@@ -6,7 +6,6 @@ class PostDetailsPage;
 class PostListPage;
 class QSettings;
 class QStackedLayout;
-class SettingsDialog;
 namespace Ui { class MainWindow; }
 
 class MainWindow: public QWidget
@@ -19,7 +18,6 @@ class MainWindow: public QWidget
     PostListPage* _list_page = nullptr;
     PostDetailsPage* _details_page = nullptr;
     Client* _client = nullptr;
-    SettingsDialog* _settingsDialog = nullptr;
     QSettings* _settings = nullptr;
 
   public:
@@ -29,8 +27,7 @@ class MainWindow: public QWidget
   public slots:
     void showListPage();
     void showDetailsPage(const QString& post_id);
-    void showSettingsDialog();
 
   private slots:
-    void store_settings_from_dialog();
+    void initialize_or_quit();
 };
