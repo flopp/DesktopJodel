@@ -24,6 +24,7 @@ PostListPage::PostListPage(QWidget* parent) :
 
   connect(_ui->refreshListButton, SIGNAL(clicked()), this, SLOT(refresh_list()));
   connect(_ui->postButton, SIGNAL(clicked()), this, SLOT(post_message()));
+  connect(_ui->setLocationButton, SIGNAL(clicked()), this, SIGNAL(show_location_dialog()));
 }
 
 
@@ -87,7 +88,7 @@ void PostListPage::refresh_list()
     QList<Post> posts;
     try
     {
-      posts = _client->get_home_posts();
+      posts = _client->get_local_posts();
     }
     catch (...)
     {

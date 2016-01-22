@@ -1,5 +1,6 @@
 #pragma once
 
+#include "location.h"
 #include <QWidget>
 class Client;
 class PostDetailsPage;
@@ -20,14 +21,19 @@ class MainWindow: public QWidget
     Client* _client = nullptr;
     QSettings* _settings = nullptr;
 
+    Location _home_location;
+    Location _current_location;
+    void save_locations_to_settings();
+
   public:
     explicit MainWindow(QWidget* parent = nullptr);
     virtual ~MainWindow();
 
   public slots:
-    void showListPage();
-    void showDetailsPage(const QString& post_id);
+    void show_list_page();
+    void show_details_page(const QString& post_id);
 
   private slots:
     void initialize_or_quit();
+    void show_location_dialog();
 };

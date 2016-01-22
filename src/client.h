@@ -1,5 +1,6 @@
 #pragma once
 
+#include "location.h"
 #include "post.h"
 #include <QDateTime>
 #include <QJsonDocument>
@@ -18,10 +19,8 @@ class Client: public QObject
 
   private:
     QString _device_uid;
-    QString _city;
-    QString _country_code;
-    double _lat;
-    double _lng;
+    Location _home_location;
+    Location _location;
     const QString _client_id = "81e8a76e-1e02-4d17-9ba0-8a7020261b26";
     const QString _user_agent_string = "Jodel/65000 Dalvik/2.1.0 (Linux; U; Android 5.0; SM-G900F Build/LRX21T)";
     const QString _base_api_url = "https://api.go-tellm.com/api/v2";
@@ -35,7 +34,7 @@ class Client: public QObject
     ImageFetcher* _image_fetcher = nullptr;
 
   public:
-    Client(const QString& device_uid, const QString& city, const QString& country_code, double lat, double lng);
+    Client(const QString& device_uid, const Location& home_location);
 
     static QString randomDeviceUid();
 
@@ -62,12 +61,12 @@ class Client: public QObject
     void send_post(const QString& message, const QString& color);
     void send_reply(const QString& message, const QString& post_id, const QString& color);
 
-    const double& get_lat() const { return _lat; }
-    const double& get_lng() const { return _lng; }
-    const QString& get_city() const { return _city; }
-    const QString& get_country_code() const { return _country_code; }
+//    const double& get_lat() const { return _lat; }
+//    const double& get_lng() const { return _lng; }
+//    const QString& get_city() const { return _city; }
+//    const QString& get_country_code() const { return _country_code; }
     const QString& get_device_uid() const { return _device_uid; }
-    void set_location(const QString& city, const QString& country_code, double lat, double lng);
+    void set_location(const Location& location);
     void set_device_uid(const QString& device_uid);
 
     void fetch_image(const QUrl& url);

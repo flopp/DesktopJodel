@@ -31,4 +31,5 @@ class PostListPage: public QWidget
 
   signals:
     void show_post_details(const QString& post_id);
+    void show_location_dialog();
 };

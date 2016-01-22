@@ -1,4 +1,6 @@
 qt5_wrap_ui(forms
+  locationDialog.ui
+  locationWidget.ui
   mainWindow.ui
   newAccountDialog.ui
   postListPage.ui
@@ -17,6 +19,9 @@ add_executable(DesktopJodel
   colorWidget.cpp
   imageFetcher.cpp
   imageWidget.cpp
+  location.cpp
+  locationDialog.cpp
+  locationWidget.cpp
   mainWindow.cpp
   newAccountDialog.cpp
   postListPage.cpp

@@ -10,12 +10,10 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
-Client::Client(const QString& device_uid, const QString& city, const QString& country_code, double lat, double lng) :
+Client::Client(const QString& device_uid, const Location& home_location) :
   _device_uid(device_uid),
-  _city(city),
-  _country_code(country_code),
-  _lat(lat),
-  _lng(lng)
+  _home_location(home_location),
+  _location(home_location)
 {
   _net = new QNetworkAccessManager(this);
   _image_fetcher = new ImageFetcher(this);
@@ -169,11 +167,11 @@ void Client::authenticate()
   request.setRawHeader("Content-Type", "application/json; charset=UTF-8");
 
   QJsonObject loc_coordinates;
-  loc_coordinates.insert("lat", _lat);
-  loc_coordinates.insert("lng", _lng);
+  loc_coordinates.insert("lat", _home_location.lat);
+  loc_coordinates.insert("lng", _home_location.lng);
   QJsonObject location;
-  location.insert("city", _city);
-  location.insert("country", _country_code);
+  location.insert("city", _home_location.city);
+  location.insert("country", _home_location.country);
   location.insert("loc_accuracy", 19.0);
   location.insert("loc_coordinates", loc_coordinates);
   QJsonObject payload;
@@ -231,44 +229,14 @@ int Client::get_karma()
 }
 
 
-//void Client::set_current_location()
-//{
-//  set_location("Heidelberg", "DE", 49.416667, 8.716667);
-//
-//  QJsonObject loc_coordinates;
-//  loc_coordinates.insert("lat", _lat);
-//  loc_coordinates.insert("lng", _lng);
-//  QJsonObject location;
-//  location.insert("city", _city);
-//  location.insert("country", _country_code);
-//  location.insert("loc_accuracy", 19.0);
-//  location.insert("loc_coordinates", loc_coordinates);
-//  location.insert("name", "41");
-//  QJsonObject payload;
-//  payload.insert("location", location);
-//
-//  QJsonDocument doc;
-//  doc.setObject(payload);
-//
-//  try
-//  {
-//    authenticated_request(MethodType::PUT, "/users/place", doc);
-//  }
-//  catch(...)
-//  {
-//    return;
-//  }
-//}
-
-
 void Client::send_post(const QString& message, const QString& color)
 {
   QJsonObject loc_coordinates;
-  loc_coordinates.insert("lat", _lat);
-  loc_coordinates.insert("lng", _lng);
+  loc_coordinates.insert("lat", _location.lat);
+  loc_coordinates.insert("lng", _location.lng);
   QJsonObject location;
-  location.insert("city", _city);
-  location.insert("country", _country_code);
+  location.insert("city", _location.city);
+  location.insert("country", _location.country);
   location.insert("loc_accuracy", 19.0);
   location.insert("loc_coordinates", loc_coordinates);
   location.insert("name", "41");
@@ -287,11 +255,11 @@ void Client::send_post(const QString& message, const QString& color)
 void Client::send_reply(const QString& message, const QString& post_id, const QString& color)
 {
   QJsonObject loc_coordinates;
-  loc_coordinates.insert("lat", _lat);
-  loc_coordinates.insert("lng", _lng);
+  loc_coordinates.insert("lat", _location.lat);
+  loc_coordinates.insert("lng", _location.lng);
   QJsonObject location;
-  location.insert("city", _city);
-  location.insert("country", _country_code);
+  location.insert("city", _location.city);
+  location.insert("country", _location.country);
   location.insert("loc_accuracy", 19.0);
   location.insert("loc_coordinates", loc_coordinates);
   location.insert("name", "41");
@@ -308,12 +276,37 @@ void Client::send_reply(const QString& message, const QString& post_id, const QS
 }
 
 
-void Client::set_location(const QString& city, const QString& country_code, double lat, double lng)
+void Client::set_location(const Location& location)
 {
-  _city = city;
-  _country_code = country_code;
-  _lat = lat;
-  _lng = lng;
+  if (location != _location)
+  {
+    _location = location;
+
+    QJsonObject loc_coordinates;
+    loc_coordinates.insert("lat", _location.lat);
+    loc_coordinates.insert("lng", _location.lng);
+    QJsonObject json_location;
+    json_location.insert("city", _location.city);
+    json_location.insert("country", _location.country);
+    json_location.insert("loc_accuracy", 19.0);
+    json_location.insert("loc_coordinates", loc_coordinates);
+    json_location.insert("name", "41");
+    QJsonObject payload;
+    payload.insert("location", json_location);
+
+    QJsonDocument doc;
+    doc.setObject(payload);
+
+    try
+    {
+      authenticated_request(MethodType::PUT, "/users/place", doc);
+    }
+    catch(...)
+    {
+      qDebug() << "setting new location failed";
+      return;
+    }
+  }
 }
 
 

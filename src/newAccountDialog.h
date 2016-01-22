@@ -1,8 +1,9 @@
 #pragma once
 
-namespace Ui { class NewAccountDialog; }
+#include "location.h"
 #include <QDialog>
 #include <QString>
+namespace Ui { class NewAccountDialog; }
 
 class NewAccountDialog: public QDialog
 {
@@ -13,19 +14,14 @@ class NewAccountDialog: public QDialog
     virtual ~NewAccountDialog();
 
     QString get_device_uid() const;
-    QString get_city() const;
-    QString get_country_code() const;
-    double get_lat() const;
-    double get_lng() const;
+    Location get_location() const;
+    void set_location(const Location& location);
 
   private slots:
     bool validate();
     void validate_and_accept();
     void create_random_device_uid();
     void update_device_uid_label(const QString& device_uid);
-
-  private:
-    void fill_country_box();
 
   private:
     Ui::NewAccountDialog* _ui = nullptr;
