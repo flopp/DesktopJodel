@@ -2,6 +2,8 @@
 
 A inofficial, Qt-based desktop client for the [Jodel chat protocol](http://jodel-app.com/).
 
+![DesktopJodel Screenshot](https://github.com/flopp/DesktopJodel/blob/master/screenshot.jpg)
+
 ## Installation
 
 1. Make sure `git`, `cmake`, and `Qt 5` are installed
