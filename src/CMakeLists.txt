@@ -9,14 +9,15 @@ qt5_wrap_ui(forms
   voteWidget.ui
 )
 
-#qt5_add_resources(resources
-#  src.qrc
-#)
+qt5_add_resources(resources
+  emoji.qrc
+)
 
 add_executable(DesktopJodel
   main.cpp 
   client.cpp
   colorWidget.cpp
+  emoji.cpp
   imageFetcher.cpp
   imageWidget.cpp
   location.cpp
@@ -31,6 +32,7 @@ add_executable(DesktopJodel
   voteDirection.cpp
   voteWidget.cpp
   ${forms}
+  ${resources}
 )
 
 target_link_libraries(DesktopJodel

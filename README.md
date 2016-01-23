@@ -13,4 +13,7 @@ A inofficial, Qt-based desktop client for the [Jodel chat protocol](http://jodel
 5. Execute the generated `bin/DesktopJodel` ;)
 
 ## License
-MIT licensed. See the LICENSE file.
+DesktopJodel is MIT licensed. See the LICENSE file.
+
+## Emoji
+The emoji images used by DesktopJodel provided by [http://emojione.com/] under a CC-BY license.

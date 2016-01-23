@@ -1,4 +1,5 @@
 #include "client.h"
+#include "emoji.h"
 #include "postWidget.h"
 #include "ui_postWidget.h"
 #include "voteWidget.h"
@@ -31,7 +32,7 @@ void PostWidget::set_post(const Post& post)
   }
   _post = post;
 
-  _ui->messageLabel->setText(_post.get_message());
+  _ui->messageLabel->setText(emoji().to_html(_post.get_message()));
   _ui->infoLabel->setText(QString("%1; %2").arg(_post.get_created_at().toString("yyyy-MM-dd hh:mm:ss")).arg(_post.get_city()));
   if (_post.is_created_by_op())
   {
