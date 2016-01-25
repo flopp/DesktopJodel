@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget* parent) :
   _ui = new Ui::MainWindow;
   _ui->setupUi(this);
 
+  qApp->setStyleSheet("QPushButton { font: bold; border-radius: 4px; padding: 4px; outline: none; background-color: palette(dark); color: white; } QPushButton:!enabled { color: #CCCCCC; } QPushButton:focus {}");
+
   _layout = new QStackedLayout(this);
 
   _list_page = new PostListPage(this);

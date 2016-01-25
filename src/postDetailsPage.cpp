@@ -59,7 +59,7 @@ void PostDetailsPage::update_post()
   while (_post_widgets.size() < posts.size() + 1)
   {
     PostWidget* w = new PostWidget;
-    w->toggle_details_button(false);
+    w->set_details_mode(true);
     _layout->insertWidget(_post_widgets.size(), w);
     _post_widgets << w;
   }

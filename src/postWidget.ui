@@ -115,9 +115,6 @@
         <property name="text">
          <string>Details...</string>
         </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
        </widget>
       </item>
      </layout>

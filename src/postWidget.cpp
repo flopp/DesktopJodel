@@ -70,9 +70,9 @@ void PostWidget::slotRefreshPost()
 }
 
 
-void PostWidget::toggle_details_button(bool enabled)
+void PostWidget::set_details_mode(bool details_mode)
 {
-  _ui->detailsButton->setVisible(enabled);
+  _ui->detailsButton->setVisible(!details_mode);
 }
 
 
@@ -93,8 +93,11 @@ void PostWidget::handle_image(const QUrl& url, const QPixmap& image)
 
 void PostWidget::set_color(const QColor& color)
 {
-  const QColor text_color = color.lightnessF() < 0.5 ? Qt::white : Qt::black;
-  setStyleSheet(QString("#widget { background-color: %1; color: %2; } QWidget { color: %2; } QPushButton { font: bold; }").arg(color.name(), text_color.name()));
+  //const QColor text_color = color.lightnessF() < 0.5 ? Qt::white : Qt::black;
+  //const QColor button_color = color.lightnessF() < 0.5 ? color.darker() : color.lighter();
+  static const QColor text_color = Qt::white;
+  const QColor button_color = color.darker(125);
+  setStyleSheet(QString("#widget { background-color: %1; color: %2; } QWidget { color: %2; } QPushButton { color: %2; background-color: %3; }").arg(color.name(), text_color.name(), button_color.name()));
 }
 
 

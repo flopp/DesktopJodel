@@ -21,7 +21,7 @@ class PostWidget: public QWidget
     virtual ~PostWidget();
 
     void set_post(const Post& post);
-    void toggle_details_button(bool enabled);
+    void set_details_mode(bool enabled);
 
   public slots:
     void slotVoteUp();
