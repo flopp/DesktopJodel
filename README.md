@@ -16,4 +16,4 @@ A inofficial, Qt-based desktop client for the [Jodel chat protocol](http://jodel
 DesktopJodel is MIT licensed. See the LICENSE file.
 
 ## Emoji
-The emoji images used by DesktopJodel provided by [http://emojione.com/] under a CC-BY license.
+The emoji images used by DesktopJodel are provided by http://emojione.com/ under a CC-BY license.
