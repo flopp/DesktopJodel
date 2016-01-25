@@ -53,8 +53,8 @@ void MainWindow::show_list_page()
 
 void MainWindow::show_details_page(const QString& post_id)
 {
-  _layout->setCurrentWidget(_details_page);
   _details_page->load_post(post_id);
+  _layout->setCurrentWidget(_details_page);
 }
 
 

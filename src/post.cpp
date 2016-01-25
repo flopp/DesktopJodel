@@ -1,5 +1,6 @@
 #include "client.h"
 #include "post.h"
+#include <QDebug>
 #include <QJsonArray>
 #include <QJsonDocument>
 

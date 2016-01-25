@@ -15,6 +15,7 @@ class PostWidget: public QWidget
     Ui::PostWidget* _ui;
     Post _post;
     QUrl _image_url;
+    bool _details = false;
 
   public:
     PostWidget(QWidget* parent = nullptr);

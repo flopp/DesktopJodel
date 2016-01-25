@@ -37,6 +37,7 @@ class Post
     QString get_lat() const { return _json["location"].toObject()["loc_coordinates"].toObject()["lat"].toString(); }
     QString get_lng() const { return _json["location"].toObject()["loc_coordinates"].toObject()["lng"].toString(); }
     QString get_image_url() const { return _json["image_url"].toString(); }
+    QString get_thumbnail_url() const { return _json["thumbnail_url"].toString(); }
     bool is_created_by_op() const { return _json["parent_creator"].toInt(0) == 1; }
 
     void vote_up();

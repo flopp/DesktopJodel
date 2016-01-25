@@ -45,7 +45,7 @@ void PostWidget::set_post(const Post& post)
   _ui->votes->set_voted_direction(_post.get_voted());
 
   display_child_count(_post.get_child_count());
-  initiate_image_request(_post.get_image_url());
+  initiate_image_request(_details ? _post.get_image_url() : _post.get_thumbnail_url());
 }
 
 
@@ -72,6 +72,7 @@ void PostWidget::slotRefreshPost()
 
 void PostWidget::set_details_mode(bool details_mode)
 {
+  _details = details_mode;
   _ui->detailsButton->setVisible(!details_mode);
 }
 
