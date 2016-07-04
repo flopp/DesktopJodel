@@ -1,6 +1,6 @@
 # DesktopJodel
 
-A inofficial, Qt-based desktop client for the [Jodel chat protocol](http://jodel-app.com/).
+An unofficial, Qt-based desktop client for the [Jodel chat protocol](http://jodel-app.com/).
 
 ![DesktopJodel Screenshot](https://github.com/flopp/DesktopJodel/blob/master/screenshot.jpg)
 
